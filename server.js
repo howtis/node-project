@@ -3,9 +3,8 @@ const express = require('express');
 const dotenv  = require('dotenv');
 
 // profiles
-const profiles     = process.env.NODE_ENV;
-const profilesPath = profiles === 'local' ? '..' : '.';
-dotenv.config({ "path": `${profilesPath}/profiles/node/.env.${profiles}` });
+const profiles = process.env.NODE_ENV;
+dotenv.config({ "path": `../profiles/node/.env.${profiles}` });
 
 // settings
 const app = express();
