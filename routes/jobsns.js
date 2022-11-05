@@ -10,6 +10,9 @@ const storage = multer.diskStorage({
             fs.mkdirSync(imagePath, { recursive: true });
         
         callback(null, imagePath);
+    },
+    filename: (request, file, callback) => {
+        callback(null, file.originalname);        
     }
 });
 
@@ -21,9 +24,15 @@ router
 
     .get('/getImage/:image', (request, response) => {
         const image = request.params.image;
-        fs.readFile(path.join(imagePath, image), (err, data => {
-            response.send(data);
-        }))
+        fs.readFileSync(path.join(imagePath, image), (error, data) => {
+            if (!error)
+                response.send(data);
+            
+            else {
+                console.log(error);
+                response.send(error);
+            }
+        })
     });
 
 module.exports = router;
