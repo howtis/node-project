@@ -26,14 +26,14 @@ router
     .get('/getImage/:image', (request, response) => {
         const image = request.params.image;
         const file  = path.join(imagePath, image);
-
+        
         fs.readFile(file, (error, data) => {
             if (!error) {
                 response.writeHead(200, { "content-type": mime.getType(file) });
                 response.end(data);
             } else {
                 response.writeHead(500, { "content-type": "text/html" });
-                response.end(error);
+                response.send(error);
             }
         })
     });
