@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const multer = require('multer');
 const path   = require('path');
+const mime   = require('mime');
 const fs     = require('fs');
 
 const imagePath = '/var/lib/jobsns/images';
@@ -24,13 +25,15 @@ router
 
     .get('/getImage/:image', (request, response) => {
         const image = request.params.image;
-        fs.readFileSync(path.join(imagePath, image), (error, data) => {
-            if (!error)
-                response.send(data);
-            
-            else {
-                console.log(error);
-                response.send(error);
+        const file  = path.join(imagePath, image);
+
+        fs.readFile(file, (error, data) => {
+            if (!error) {
+                response.writeHead(200, { "content-type": mime.getType(file) });
+                response.end(data);
+            } else {
+                response.writeHead(500, { "content-type": "text/html" });
+                response.end(error);
             }
         })
     });
