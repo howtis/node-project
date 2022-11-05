@@ -27,13 +27,12 @@ router
         const image = request.params.image;
         const file  = path.join(imagePath, image);
         
+        if (!fs.existsSync(file)) { response.send("파일이 없습니다"); return; }
         fs.readFile(file, (error, data) => {
-            if (!error) {
+            if (error) response.send(error);
+            else {
                 response.writeHead(200, { "content-type": mime.getType(file) });
                 response.end(data);
-            } else {
-                response.writeHead(500, { "content-type": "text/html" });
-                response.send(error);
             }
         })
     });
