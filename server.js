@@ -13,7 +13,8 @@ app.use(cors());
 app.use(express.json());
 
 // routes
-app.use('/test', require('./routes/test'));
+app.use('/test',   require('./routes/test'));
+app.use('/jobsns', require('./routes/jobsns'));
 
 // run
 const PORT = 9000;
